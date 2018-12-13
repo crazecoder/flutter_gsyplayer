@@ -4,8 +4,18 @@ A flutter video player base on [GSYVideoPlayer](https://github.com/CarGuo/GSYVid
 
 ## Android is only supported for now
 when report couldn't find "libflutter.so" in Android Release Mode
+
+64-bit
 ```
 flutter build apk --release --target-platform android-arm64
+```
+32-bit
+```
+flutter build apk --release --target-platform android-arm
+```
+To get the 32-bit version running I need to use:
+```
+defaultConfig { ndk{ abiFilters "armeabi-v7a" } }
 ```
 
 ## Usage
