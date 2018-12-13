@@ -1,8 +1,12 @@
 # flutter_gsyplayer
 
-A flutter video player base on #### [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
+A flutter video player base on [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
 
 ## Android is only supported for now
+when report couldn't find "libflutter.so" in Android Release Mode
+```
+flutter build apk --release --target-platform android-arm64
+```
 
 ## Usage
 
