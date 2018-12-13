@@ -1,14 +1,21 @@
 # flutter_gsyplayer
 
-A new Flutter project.
+A flutter video player base on #### [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
 
-## Getting Started
+## Android is only supported for now
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.io/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+## Usage
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+To use this plugin, add below code in your pubspec.yaml file.
+```
+flutter_gsyplayer:
+   git:
+     url: git://github.com/crazecoder/flutter_gsyplayer.git
+```
+
+## Example
+```
+import 'package:flutter_gsyplayer/flutter_gsyplayer.dart';
+
+play(url: url);
+```
