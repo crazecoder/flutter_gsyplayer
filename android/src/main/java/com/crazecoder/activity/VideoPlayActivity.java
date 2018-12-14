@@ -34,8 +34,8 @@ public class VideoPlayActivity extends Activity {
         setContentView(R.layout.activity_video_play);
         TextView tips = findViewById(R.id.tv_tips);
         TextView speed = findViewById(R.id.tv_speed);
-        speed.setText(player.getNetSpeedText());
         player = findViewById(R.id.video_player);
+        speed.setText(player.getNetSpeedText());
         //设置旋转
         orientationUtils = new OrientationUtils(this, player);
         player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
