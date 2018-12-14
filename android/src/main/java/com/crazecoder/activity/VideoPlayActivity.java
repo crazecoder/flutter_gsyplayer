@@ -33,6 +33,8 @@ public class VideoPlayActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video_play);
         TextView tips = findViewById(R.id.tv_tips);
+        TextView speed = findViewById(R.id.tv_speed);
+        speed.setText(player.getNetSpeedText());
         player = findViewById(R.id.video_player);
         //设置旋转
         orientationUtils = new OrientationUtils(this, player);
@@ -51,11 +53,12 @@ public class VideoPlayActivity extends Activity {
         VideoPlayUtil.init(player);
         String url = getIntent().getStringExtra("url");
         String title = getIntent().getStringExtra("title");
+        boolean cache = getIntent().getBooleanExtra("cache",true);
         if(TextUtils.isEmpty(url)){
             tips.setVisibility(View.VISIBLE);
         }else {
             tips.setVisibility(View.GONE);
-            player.setUp(url, true, TextUtils.isEmpty(title)?"":title);
+            player.setUp(url, cache, TextUtils.isEmpty(title)?"":title);
             player.startPlayLogic();
         }
     }

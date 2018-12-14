@@ -5,9 +5,10 @@ import 'package:flutter/services.dart';
 
 const MethodChannel _channel = const MethodChannel('flutter_gsyplayer');
 
-Future<Null> play({@required String url, String title}) async {
-  Map<String, String> map = {
+Future<Null> play({@required String url, String title,bool cache}) async {
+  Map<String, Object> map = {
     "url": url,
+    "cache": cache,
     "title": title,
   };
   await _channel.invokeMethod(
@@ -20,6 +21,7 @@ Future<Null> play({@required String url, String title}) async {
 class GSYPlayer extends StatefulWidget {
   final String url;
   final bool autoPlay;
+  final bool cache;
 
   final Function onBackPress;
 
@@ -47,6 +49,7 @@ class GSYPlayer extends StatefulWidget {
     this.url,
     this.autoPlay = false,
     this.onBackPress,
+    this.cache,
   }) {
     _listenOnBackPress();
   }
@@ -64,6 +67,7 @@ class _GSYPlayerState extends State<GSYPlayer> {
         creationParams: {
           "url": widget.url,
           "autoPlay": widget.autoPlay,
+          "cache": widget.cache,
         },
         gestureRecognizers: null);
   }
