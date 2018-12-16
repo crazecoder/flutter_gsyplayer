@@ -3,6 +3,8 @@ package com.crazecoder.activity;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +18,9 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Note of this class.
  *
@@ -25,6 +30,14 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 public class VideoPlayActivity extends Activity {
     private OrientationUtils orientationUtils;
     private StandardGSYVideoPlayer player;
+    private TextView speed;
+    private Timer timer;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            speed.setText(player.getNetSpeedText());
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +46,9 @@ public class VideoPlayActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video_play);
         TextView tips = findViewById(R.id.tv_tips);
-        TextView speed = findViewById(R.id.tv_speed);
+        speed = findViewById(R.id.tv_speed);
         player = findViewById(R.id.video_player);
-        speed.setText(player.getNetSpeedText());
+
         //设置旋转
         orientationUtils = new OrientationUtils(this, player);
         player.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
@@ -61,6 +74,18 @@ public class VideoPlayActivity extends Activity {
             player.setUp(url, cache, TextUtils.isEmpty(title)?"":title);
             player.startPlayLogic();
         }
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                // task to run goes here
+                handler.sendEmptyMessage(0);
+            }
+        };
+        Timer timer = new Timer();
+        long delay = 0;
+        long intevalPeriod = 1 * 1000;
+        // schedules the task to be run in an interval
+        timer.scheduleAtFixedRate(task, delay, intevalPeriod);
     }
     @Override
     protected void onPause() {
@@ -77,6 +102,7 @@ public class VideoPlayActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        timer.cancel();
         GSYVideoManager.releaseAllVideos();
         if (orientationUtils != null)
             orientationUtils.releaseListener();
@@ -89,6 +115,7 @@ public class VideoPlayActivity extends Activity {
             player.getFullscreenButton().performClick();
             return;
         }
+        timer.cancel();
         //释放所有
         player.setVideoAllCallBack(null);
         super.onBackPressed();

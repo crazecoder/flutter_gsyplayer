@@ -1,13 +1,10 @@
 package com.crazecoder.fluttergsyplayer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.Map;
@@ -27,6 +24,7 @@ public class GSYPlayerFactory extends PlatformViewFactory {
     private StandardGSYVideoPlayer videoPlayer;
     private boolean autoPlay;
     private String url;
+    private boolean cache;
 
     public GSYPlayerFactory(MessageCodec<Object> createArgsCodec,StandardGSYVideoPlayer videoPlayer) {
         super(createArgsCodec);
@@ -39,14 +37,16 @@ public class GSYPlayerFactory extends PlatformViewFactory {
         if (param.containsKey("url")) {
             url = param.get("url").toString();
         }
+        if (param.containsKey("cache")) {
+            cache = (boolean) param.get("cache");
+        }
         if (param.containsKey("autoPlay"))
             autoPlay = (boolean) param.get("autoPlay");
         return new PlatformView() {
             @Override
             public View getView() {
-                Log.d("GSYPlayerFactory","create");
                 if (!TextUtils.isEmpty(url)) {
-                    videoPlayer.setUp(url, true, "");
+                    videoPlayer.setUp(url, cache, "");
                 }
                 if (autoPlay) {
                     videoPlayer.startPlayLogic();

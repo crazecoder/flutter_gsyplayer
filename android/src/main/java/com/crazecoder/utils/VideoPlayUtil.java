@@ -1,22 +1,10 @@
 package com.crazecoder.utils;
 
-import android.app.Activity;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
-import com.crazecoder.fluttergsyplayer.R;
 import com.shuyu.gsyvideoplayer.cache.CacheFactory;
-import com.shuyu.gsyvideoplayer.cache.ProxyCacheManager;
-import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.player.SystemPlayerManager;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
@@ -36,7 +24,7 @@ public class VideoPlayUtil {
 //        CacheFactory.setCacheManager(ProxyCacheManager.class);//代理缓存模式，支持所有模式，不支持m3u8等
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        videoPlayer.setSeekRatio(videoPlayer.getDuration()/20);
+        videoPlayer.setSeekRatio(10);
 //        WebView webview = new WebView(videoPlayer.getContext());
 //
 //        // 得到WebSettings对象

@@ -1,19 +1,10 @@
 package com.crazecoder.fluttergsyplayer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 
 import com.crazecoder.activity.VideoPlayActivity;
 import com.crazecoder.utils.VideoPlayUtil;
-import com.shuyu.gsyvideoplayer.cache.CacheFactory;
-import com.shuyu.gsyvideoplayer.cache.ProxyCacheManager;
-import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
-import com.shuyu.gsyvideoplayer.player.PlayerFactory;
-import com.shuyu.gsyvideoplayer.player.SystemPlayerManager;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import io.flutter.plugin.common.MethodCall;
@@ -22,8 +13,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.StandardMessageCodec;
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
-import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
 /**
  * FlutterGsyplayerPlugin
@@ -56,11 +45,12 @@ public class FlutterGsyplayerPlugin implements MethodCallHandler {
                 intent.putExtra("url", call.argument("url").toString());
             if (call.hasArgument("title") && call.argument("title") != null)
                 intent.putExtra("title", call.argument("title").toString());
+            if (call.hasArgument("cache") && call.argument("cache") != null)
+                intent.putExtra("cache", (Boolean) call.argument("cache"));
             activity.startActivity(intent);
             result.success("");
         } else {
             result.notImplemented();
-
         }
     }
 
