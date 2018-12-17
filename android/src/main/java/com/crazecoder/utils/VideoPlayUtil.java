@@ -12,7 +12,7 @@ import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 /**
  * Note of this class.
  *
- * @author chendong
+ * @author crazecoder
  * @since 2018/12/13
  */
 public class VideoPlayUtil {
@@ -24,7 +24,7 @@ public class VideoPlayUtil {
 //        CacheFactory.setCacheManager(ProxyCacheManager.class);//代理缓存模式，支持所有模式，不支持m3u8等
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        videoPlayer.setSeekRatio(10);
+        videoPlayer.setSeekRatio(5);
 //        WebView webview = new WebView(videoPlayer.getContext());
 //
 //        // 得到WebSettings对象

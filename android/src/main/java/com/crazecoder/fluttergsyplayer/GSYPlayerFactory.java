@@ -16,7 +16,7 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 /**
  * Note of this class.
  *
- * @author chendong
+ * @author crazecoder
  * @since 2018/12/12
  */
 public class GSYPlayerFactory extends PlatformViewFactory {

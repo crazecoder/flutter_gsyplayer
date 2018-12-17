@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.crazecoder.fluttergsyplayer.R;
+import com.crazecoder.utils.NetSpeedUtil;
 import com.crazecoder.utils.VideoPlayUtil;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
@@ -24,18 +25,22 @@ import java.util.TimerTask;
 /**
  * Note of this class.
  *
- * @author chendong
+ * @author crazecoder
  * @since 2018/12/13
  */
 public class VideoPlayActivity extends Activity {
     private OrientationUtils orientationUtils;
     private StandardGSYVideoPlayer player;
-    private TextView speed;
+    private TextView tvSpeed;
+    private long speed;
     private Timer timer;
+    private long lastTotalRxBytes = 0; // 最后缓存的字节数
+    private long lastTimeStamp = 0; // 当前缓存时间
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            speed.setText(player.getNetSpeedText());
+            tvSpeed.setText(String.valueOf(speed) + "kb/s");
         }
     };
     @Override
@@ -46,7 +51,7 @@ public class VideoPlayActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video_play);
         TextView tips = findViewById(R.id.tv_tips);
-        speed = findViewById(R.id.tv_speed);
+        tvSpeed = findViewById(R.id.tv_speed);
         player = findViewById(R.id.video_player);
 
         //设置旋转
@@ -78,10 +83,17 @@ public class VideoPlayActivity extends Activity {
             @Override
             public void run() {
                 // task to run goes here
+                long nowTotalRxBytes = NetSpeedUtil.getTotalRxBytes(VideoPlayActivity.this); // 获取当前数据总量
+                long nowTimeStamp = System.currentTimeMillis(); // 当前时间
+                // kb/s
+                speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp == lastTimeStamp ? nowTimeStamp : nowTimeStamp
+                        - lastTimeStamp));// 毫秒转换
+                lastTimeStamp = nowTimeStamp;
+                lastTotalRxBytes = nowTotalRxBytes;
                 handler.sendEmptyMessage(0);
             }
         };
-        Timer timer = new Timer();
+        timer = new Timer();
         long delay = 0;
         long intevalPeriod = 1 * 1000;
         // schedules the task to be run in an interval

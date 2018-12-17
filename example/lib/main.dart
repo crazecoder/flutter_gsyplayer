@@ -13,7 +13,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    play(url: "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4");
+    play(url: "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4",cache: false);
   }
 
   @override
