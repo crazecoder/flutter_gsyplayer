@@ -31,10 +31,6 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
 }
 dependencies {
     implementation ('com.shuyu:gsyVideoPlayer-java:6.0.2'){

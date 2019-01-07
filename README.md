@@ -18,6 +18,17 @@ To get the 32-bit version running I need to use:
 defaultConfig { ndk{ abiFilters "armeabi-v7a" } }
 ```
 
+when report  "Invoke-customs are only supported starting with Android O (--min-api 26)"
+ in build release,add below code in android/app/build.gradle
+```
+android {
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+}
+```
+
 ## Usage
 
 To use this plugin, add below code in your pubspec.yaml file.
