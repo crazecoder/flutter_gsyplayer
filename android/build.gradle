@@ -33,11 +33,11 @@ android {
     }
 }
 dependencies {
-    implementation ('com.shuyu:gsyVideoPlayer-java:6.0.1'){
+    implementation ('com.shuyu:gsyVideoPlayer-java:6.0.2'){
         exclude module: 'support-v4'
     }
     //是否需要ExoPlayer模式
-    implementation 'com.shuyu:GSYVideoPlayer-exo2:6.0.1'
+    implementation 'com.shuyu:GSYVideoPlayer-exo2:6.0.2'
     //更多ijk的编码支持
-    implementation 'com.shuyu:gsyVideoPlayer-ex_so:6.0.1'
+    implementation 'com.shuyu:gsyVideoPlayer-ex_so:6.0.2'
 }
