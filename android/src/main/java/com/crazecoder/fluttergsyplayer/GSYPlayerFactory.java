@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +34,22 @@ public class GSYPlayerFactory extends PlatformViewFactory {
     private boolean cache;
     private boolean isPreview;
     private Map<String, Bitmap> bitmaps = new HashMap<>();
+    private ImageView imageView;
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (imageView == null) return;
+            bitmaps.put(url, (Bitmap) msg.obj);
+            if (!bitmaps.isEmpty() && bitmaps.containsKey(url))
+                if (bitmaps.get(url) == null)
+                    imageView.setImageResource(R.drawable.error);
+                else
+                    imageView.setImageBitmap(bitmaps.get(url));
+            else
+                imageView.setImageResource(R.drawable.error);
+        }
+    };
 
     public GSYPlayerFactory(MessageCodec<Object> createArgsCodec, StandardGSYVideoPlayer videoPlayer) {
         super(createArgsCodec);
@@ -52,7 +70,15 @@ public class GSYPlayerFactory extends PlatformViewFactory {
         if (param.containsKey("isPreview")) {
             isPreview = (boolean) param.get("isPreview");
             if (!bitmaps.containsKey(url))
-                bitmaps.put(url, getBitmapFormUrl(url));
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Bitmap bitmap = getBitmapFormUrl(url);
+                        Message message = new Message();
+                        message.obj = bitmap;
+                        handler.sendMessage(message);
+                    }
+                }).start();
         }
         return new PlatformView() {
             @Override
@@ -66,14 +92,7 @@ public class GSYPlayerFactory extends PlatformViewFactory {
                     }
                     return videoPlayer;
                 } else {
-                    ImageView imageView = new ImageView(context);
-                    if (!bitmaps.isEmpty() && bitmaps.containsKey(url))
-                        if (bitmaps.get(url) == null)
-                            imageView.setImageResource(R.drawable.error);
-                        else
-                            imageView.setImageBitmap(bitmaps.get(url));
-                    else
-                        imageView.setImageResource(R.drawable.error);
+                    imageView = new ImageView(context);
 //                    imageView.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
@@ -96,7 +115,6 @@ public class GSYPlayerFactory extends PlatformViewFactory {
     }
 
     protected static Bitmap getBitmapFormUrl(String url) {
-
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
