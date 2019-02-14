@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.1'
     }
 }
 
@@ -26,14 +26,14 @@ android {
 
     defaultConfig {
         minSdkVersion 16
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         disable 'InvalidPackage'
     }
 }
 dependencies {
-    implementation ('com.shuyu:gsyVideoPlayer-java:6.0.3'){
+    implementation('com.shuyu:gsyVideoPlayer-java:6.0.3') {
         exclude module: 'support-v4'
     }
     //是否需要ExoPlayer模式

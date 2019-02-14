@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -5,7 +6,7 @@ import 'package:flutter/services.dart';
 
 const MethodChannel _channel = const MethodChannel('flutter_gsyplayer');
 
-Future<Null> play({@required String url, String title,bool cache}) async {
+Future<Null> play({@required String url, String title, bool cache}) async {
   Map<String, Object> map = {
     "url": url,
     "cache": cache,
@@ -22,6 +23,7 @@ class GSYPlayer extends StatefulWidget {
   final String url;
   final bool autoPlay;
   final bool cache;
+  final bool isPreview;
 
   final Function onBackPress;
 
@@ -45,12 +47,12 @@ class GSYPlayer extends StatefulWidget {
 //    onFullScreen ?? onFullScreen(isFullScreen);
 //  }
 
-  GSYPlayer({
-    this.url,
-    this.autoPlay = false,
-    this.onBackPress,
-    this.cache,
-  }) {
+  GSYPlayer(
+      {this.url,
+      this.autoPlay: false,
+      this.onBackPress,
+      this.cache: true,
+      this.isPreview: true}) {
     _listenOnBackPress();
   }
 
@@ -61,14 +63,29 @@ class GSYPlayer extends StatefulWidget {
 class _GSYPlayerState extends State<GSYPlayer> {
   @override
   Widget build(BuildContext context) {
-    return AndroidView(
-        viewType: "gsyplayer",
-        creationParamsCodec: const StandardMessageCodec(),
-        creationParams: {
-          "url": widget.url,
-          "autoPlay": widget.autoPlay,
-          "cache": widget.cache,
-        },
-        gestureRecognizers: null);
+    return Stack(
+      children: <Widget>[
+        AndroidView(
+          viewType: "gsyplayer",
+          creationParamsCodec: const StandardMessageCodec(),
+          creationParams: {
+            "url": widget.url,
+            "autoPlay": widget.autoPlay,
+            "cache": widget.cache,
+            "isPreview": widget.isPreview,
+          },
+        ),
+        Center(
+          child: GestureDetector(
+            child: CircleAvatar(
+              child: Icon(Icons.play_arrow),
+            ),
+            onTap: () {
+              play(url: widget.url, cache: widget.cache);
+            },
+          ),
+        )
+      ],
+    );
   }
 }

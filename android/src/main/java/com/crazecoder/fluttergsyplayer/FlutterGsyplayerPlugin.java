@@ -49,7 +49,13 @@ public class FlutterGsyplayerPlugin implements MethodCallHandler {
                 intent.putExtra("cache", (Boolean) call.argument("cache"));
             activity.startActivity(intent);
             result.success("");
-        } else {
+        } else if (call.method.equals("seekTo")) {
+            long position = 0;
+            if (call.hasArgument("position"))
+                position = call.argument("position");
+            videoPlayer.seekTo(position);
+            result.success("");
+        }else {
             result.notImplemented();
         }
     }
@@ -70,4 +76,5 @@ public class FlutterGsyplayerPlugin implements MethodCallHandler {
 //        });
         VideoPlayUtil.init(videoPlayer);
     }
+
 }
