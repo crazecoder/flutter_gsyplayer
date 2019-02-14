@@ -1,7 +1,6 @@
 package com.crazecoder.fluttergsyplayer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.os.Build;
@@ -9,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.crazecoder.activity.VideoPlayActivity;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
@@ -70,9 +68,12 @@ public class GSYPlayerFactory extends PlatformViewFactory {
                 } else {
                     ImageView imageView = new ImageView(context);
                     if (!bitmaps.isEmpty() && bitmaps.containsKey(url))
-                        imageView.setImageBitmap(bitmaps.get(url));
+                        if (bitmaps.get(url) == null)
+                            imageView.setImageResource(R.drawable.error);
+                        else
+                            imageView.setImageBitmap(bitmaps.get(url));
                     else
-                        imageView.setImageResource(android.R.drawable.stat_notify_error);
+                        imageView.setImageResource(R.drawable.error);
 //                    imageView.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
@@ -95,6 +96,7 @@ public class GSYPlayerFactory extends PlatformViewFactory {
     }
 
     protected static Bitmap getBitmapFormUrl(String url) {
+
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
@@ -108,6 +110,9 @@ public class GSYPlayerFactory extends PlatformViewFactory {
             bitmap = retriever.getFrameAtTime();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
+        } catch (RuntimeException ex) {
+            // Assume this is a corrupt video file.
+            ex.printStackTrace();
         } finally {
             try {
                 retriever.release();
