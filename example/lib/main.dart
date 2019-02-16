@@ -13,7 +13,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    play(url: "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4",cache: false);
+//    play(url: "https://www4.yuboyun.com/hls/2018/12/19/TPJezSha/playlist.m3u8",cache: false);
   }
 
   @override
@@ -24,14 +24,14 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-//          child: GSYPlayer(
-//            url:
-//                "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4",
-//            autoPlay: true,
-//            onBackPress: (){
-//              print("back");
-//            },
-//          ),
+          child: GSYPlayer(
+            url:
+                "https://cdn-4.haku99.com/hls/2019/02/13/z3KVXvYN/playlist.m3u8",
+            autoPlay: true,
+            onBackPress: (){
+              print("back");
+            },
+          ),
         ),
       ),
     );

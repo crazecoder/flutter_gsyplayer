@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +20,8 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import androidx.annotation.Nullable;
 
 /**
  * Note of this class.
