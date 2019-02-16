@@ -1,19 +1,15 @@
 package com.crazecoder.fluttergsyplayer;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import io.flutter.plugin.common.MessageCodec;
@@ -33,23 +29,8 @@ public class GSYPlayerFactory extends PlatformViewFactory {
     private String url;
     private boolean cache;
     private boolean isPreview;
-    private Map<String, Bitmap> bitmaps = new HashMap<>();
     private ImageView imageView;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (imageView == null) return;
-            bitmaps.put(url, (Bitmap) msg.obj);
-            if (!bitmaps.isEmpty() && bitmaps.containsKey(url))
-                if (bitmaps.get(url) == null)
-                    imageView.setImageResource(R.drawable.error);
-                else
-                    imageView.setImageBitmap(bitmaps.get(url));
-            else
-                imageView.setImageResource(R.drawable.error);
-        }
-    };
 
     public GSYPlayerFactory(MessageCodec<Object> createArgsCodec, StandardGSYVideoPlayer videoPlayer) {
         super(createArgsCodec);
@@ -69,16 +50,6 @@ public class GSYPlayerFactory extends PlatformViewFactory {
             autoPlay = (boolean) param.get("autoPlay");
         if (param.containsKey("isPreview")) {
             isPreview = (boolean) param.get("isPreview");
-            if (!bitmaps.containsKey(url))
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Bitmap bitmap = getBitmapFormUrl(url);
-                        Message message = new Message();
-                        message.obj = bitmap;
-                        handler.sendMessage(message);
-                    }
-                }).start();
         }
         return new PlatformView() {
             @Override
@@ -93,15 +64,7 @@ public class GSYPlayerFactory extends PlatformViewFactory {
                     return videoPlayer;
                 } else {
                     imageView = new ImageView(context);
-//                    imageView.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(context, VideoPlayActivity.class);
-//                            intent.putExtra("url", url);
-//                            intent.putExtra("cache", cache);
-//                            context.startActivity(intent);
-//                        }
-//                    });
+                    loadCover(imageView,url,context);
                     return imageView;
                 }
 
@@ -113,32 +76,21 @@ public class GSYPlayerFactory extends PlatformViewFactory {
             }
         };
     }
+    /**
+     * 加载第1秒的帧数作为封面
+     *  url就是视频的地址
+     */
+    private static void loadCover(ImageView imageView, String url, Context context) {
 
-    protected static Bitmap getBitmapFormUrl(String url) {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        try {
-            if (Build.VERSION.SDK_INT >= 14) {
-                retriever.setDataSource(url, new HashMap<String, String>());
-            } else {
-                retriever.setDataSource(url);
-            }
-        /*getFrameAtTime()--->在setDataSource()之后调用此方法。 如果可能，该方法在任何时间位置找到代表性的帧，
-         并将其作为位图返回。这对于生成输入数据源的缩略图很有用。**/
-            bitmap = retriever.getFrameAtTime();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (RuntimeException ex) {
-            // Assume this is a corrupt video file.
-            ex.printStackTrace();
-        } finally {
-            try {
-                retriever.release();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
-        }
-        return bitmap;
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(context)
+                .setDefaultRequestOptions(
+                        new RequestOptions()
+                                .frame(1000000)
+                                .centerCrop()
+                                .error(R.drawable.error)//可以忽略
+                )
+                .load(url)
+                .into(imageView);
     }
-
 }
