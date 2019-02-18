@@ -21,7 +21,6 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.Nullable;
 
 /**
  * Note of this class.
@@ -45,7 +44,7 @@ public class VideoPlayActivity extends Activity {
         }
     };
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //隐去状态栏部分（电池等图标和一起修饰部分）
