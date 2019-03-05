@@ -33,13 +33,14 @@ android {
     }
 }
 dependencies {
-    implementation('com.shuyu:gsyVideoPlayer-java:6.0.3') {
-        exclude module: 'support-v4'
-    }
+//    implementation('com.shuyu:gsyVideoPlayer-java:7.0.0-beta1') {
+//        exclude module: 'support-v4'
+//    }
+    implementation 'com.shuyu:gsyVideoPlayer-java:7.0.0-beta1'
     //是否需要ExoPlayer模式
-    implementation 'com.shuyu:GSYVideoPlayer-exo2:6.0.3'
+    implementation 'com.shuyu:GSYVideoPlayer-exo2:7.0.0-beta1'
     //更多ijk的编码支持
-    implementation 'com.shuyu:gsyVideoPlayer-ex_so:6.0.3'
+    implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.0.0-beta1'
 
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:7.0.0-beta1'
 }
