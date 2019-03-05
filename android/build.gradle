@@ -42,5 +42,5 @@ dependencies {
     //更多ijk的编码支持
     implementation 'com.shuyu:gsyVideoPlayer-ex_so:7.0.0-beta1'
 
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 }
