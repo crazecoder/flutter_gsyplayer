@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -6,7 +5,8 @@ import 'package:flutter/services.dart';
 
 const MethodChannel _channel = const MethodChannel('flutter_gsyplayer');
 
-Future<Null> play({@required String url, String title, bool cache}) async {
+Future<Null> play({String url, String title, bool cache}) async {
+  assert(url!=null);
   Map<String, Object> map = {
     "url": url,
     "cache": cache,
