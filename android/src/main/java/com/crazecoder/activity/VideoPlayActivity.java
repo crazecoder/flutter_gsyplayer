@@ -37,12 +37,13 @@ public class VideoPlayActivity extends Activity {
     private long lastTotalRxBytes = 0; // 最后缓存的字节数
     private long lastTimeStamp = 0; // 当前缓存时间
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             tvSpeed.setText(String.valueOf(speed) + "kb/s");
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,12 +72,12 @@ public class VideoPlayActivity extends Activity {
         VideoPlayUtil.init(player);
         String url = getIntent().getStringExtra("url");
         String title = getIntent().getStringExtra("title");
-        boolean cache = getIntent().getBooleanExtra("cache",true);
-        if(TextUtils.isEmpty(url)){
+        boolean cache = getIntent().getBooleanExtra("cache", true);
+        if (TextUtils.isEmpty(url)) {
             tips.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tips.setVisibility(View.GONE);
-            player.setUp(url, cache, TextUtils.isEmpty(title)?"":title);
+            player.setUp(url, cache, TextUtils.isEmpty(title) ? "" : title);
             player.startPlayLogic();
         }
         TimerTask task = new TimerTask() {
@@ -99,6 +100,7 @@ public class VideoPlayActivity extends Activity {
         // schedules the task to be run in an interval
         timer.scheduleAtFixedRate(task, delay, intevalPeriod);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

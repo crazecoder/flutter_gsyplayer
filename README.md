@@ -2,8 +2,6 @@
 
 A flutter video player base on [GSYVideoPlayer](https://github.com/CarGuo/GSYVideoPlayer)
 
-Waiting for GSYVideoPlayer adaptation androidx, if u can't wait, use [flutter_ijkplayer_beta](https://github.com/crazecoder/flutter_ijkplayer_beta) 
-
 ## Android is only supported for now
 when report couldn't find "libflutter.so" in Android Release Mode
 

@@ -17,7 +17,7 @@
         android:text="播放地址为空"/>
     <TextView
         android:id="@+id/tv_speed"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@android:color/white"

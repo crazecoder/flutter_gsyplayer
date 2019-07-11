@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 const MethodChannel _channel = const MethodChannel('flutter_gsyplayer');
 
 Future<Null> play({String url, String title, bool cache}) async {
-  assert(url!=null);
+  assert(url != null);
   Map<String, Object> map = {
     "url": url,
     "cache": cache,
@@ -23,7 +23,6 @@ class GSYPlayer extends StatefulWidget {
   final String url;
   final bool autoPlay;
   final bool cache;
-  final bool isPreview;
 
   final Function onBackPress;
 
@@ -47,12 +46,12 @@ class GSYPlayer extends StatefulWidget {
 //    onFullScreen ?? onFullScreen(isFullScreen);
 //  }
 
-  GSYPlayer(
-      {this.url,
-      this.autoPlay: false,
-      this.onBackPress,
-      this.cache: true,
-      this.isPreview: true}) {
+  GSYPlayer({
+    this.url,
+    this.autoPlay: false,
+    this.onBackPress,
+    this.cache: true,
+  }) {
     _listenOnBackPress();
   }
 
@@ -72,19 +71,18 @@ class _GSYPlayerState extends State<GSYPlayer> {
             "url": widget.url,
             "autoPlay": widget.autoPlay,
             "cache": widget.cache,
-            "isPreview": widget.isPreview,
           },
         ),
-        Center(
-          child: GestureDetector(
-            child: CircleAvatar(
-              child: Icon(Icons.play_arrow),
-            ),
-            onTap: () {
-              play(url: widget.url, cache: widget.cache);
-            },
-          ),
-        )
+//        Center(
+//          child: GestureDetector(
+//            child: CircleAvatar(
+//              child: Icon(Icons.play_arrow),
+//            ),
+//            onTap: () {
+//              play(url: widget.url, cache: widget.cache);
+//            },
+//          ),
+//        )
       ],
     );
   }
